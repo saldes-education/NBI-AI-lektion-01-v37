@@ -1,0 +1,14 @@
+# Virtuell miljö och cache
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Tränade modeller: genereras med `uv run train`
+model/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

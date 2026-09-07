@@ -1,0 +1,16 @@
+# Virtuell miljö och cache
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# MLflow: registret (SQLite) och artefakterna. Genereras med `uv run train`.
+# Ta bort raderna om ni väljer att commita registret (se fallgrop 6).
+mlflow.db
+mlruns/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

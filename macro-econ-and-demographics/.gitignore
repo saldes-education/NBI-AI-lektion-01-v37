@@ -1,0 +1,29 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv
+
+# Training outputs: only the committed baseline artifact is tracked
+artifacts/*
+!artifacts/baseline/
+
+# Local MLflow run journal: run store and logged artifacts
+mlflow.db
+mlruns/
+
+# Local-only files
+archive/
+*.db
+.env
+.env.*
+
+# macOS
+.DS_Store

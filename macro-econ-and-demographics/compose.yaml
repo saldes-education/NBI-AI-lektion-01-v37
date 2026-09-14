@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+      args:
+        ARTIFACT_DIR: ${ARTIFACT_DIR:-artifacts/baseline}
+    ports:
+      - "8000:8000"
+    environment:
+      TWIN_CORS_ORIGINS: ${TWIN_CORS_ORIGINS:-http://localhost:5173}
+    restart: unless-stopped
+
+  # docker compose --profile train run --rm train
+  train:
+    build:
+      context: .
+      dockerfile: docker/train.Dockerfile
+    profiles: ["train"]
+    volumes:
+      - ./data/raw:/data/raw:ro
+      - ./artifacts:/artifacts

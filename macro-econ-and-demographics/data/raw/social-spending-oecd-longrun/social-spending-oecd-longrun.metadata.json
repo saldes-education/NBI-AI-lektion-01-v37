@@ -1,0 +1,46 @@
+{
+  "chart": {
+    "title": "Public social spending as share of GDP",
+    "subtitle": "Social spending includes, among others, the following areas: health, old age, incapacity-related benefits, family, active labor market programmes, unemployment, and housing.",
+    "note": "Data for general government, which includes central, state, and local governments and social security funds.",
+    "citation": "OECD (2025); OECD (1985); Lindert (2004)",
+    "originalChartUrl": "https://ourworldindata.org/grapher/social-spending-oecd-longrun?v=1&csvType=full&useColumnShortNames=false",
+    "selection": [
+      "Greece",
+      "Canada",
+      "Australia",
+      "Japan",
+      "United States",
+      "Sweden",
+      "Italy",
+      "Germany",
+      "Netherlands",
+      "France",
+      "United Kingdom"
+    ]
+  },
+  "columns": {
+    "Public social expenditure as a share of GDP": {
+      "titleShort": "Public social expenditure as a share of GDP",
+      "titleLong": "Public social expenditure as a share of GDP - Lindert, OECD – Historical data",
+      "descriptionShort": "Public social expenditure divided bt gross domestic product, expressed as a percentage.",
+      "descriptionKey": [
+        "This indicator combines three different datasets: Lindert (2004), OECD (1985), and the OECD Social Expenditure Database (SOCX). We combine the two OECD datasets by using the implicit growth rate from the older series, so we can extend the series back to 1960. We also use the data from Lindert (2004) to extend the series to 1880."
+      ],
+      "descriptionProcessing": "We extrapolated the data available from the OECD Social Expenditure Database (public, in-cash and in-kind spending, all programs) using the earliest available observation from this dataset and applying the growth rates implied by the OECD (1985) data to obtain a series starting in 1960. These steps are necessary because the data in common years is not exactly the same for the two datasets due to changes in definitions and measurement. Nevertheless, we assume that trends stay the same in both cases.\n\nWe don't transform the data from Lindert (2004), the values are the same as in the original source.",
+      "shortUnit": "%",
+      "unit": "% of GDP",
+      "timespan": "1880-2024",
+      "type": "Numeric",
+      "owidVariableId": 1014857,
+      "shortName": "share_gdp",
+      "lastUpdated": "2025-03-07",
+      "nextUpdate": "2026-06-25",
+      "citationShort": "OECD (2025); OECD (1985); Lindert (2004) – with major processing by Our World in Data",
+      "citationLong": "OECD (2025); OECD (1985); Lindert (2004) – with major processing by Our World in Data. “Public social expenditure as a share of GDP – Lindert, OECD – Historical data” [dataset]. OECD, “OECD Social Expenditure Database (SOCX)”; OECD, “Social Expenditure 1960-1990: Problems of Growth and Control”; Lindert, “Growing Public: Social Spending and Economic Growth since the Eighteenth Century” [original data].",
+      "fullMetadata": "https://api.ourworldindata.org/v1/indicators/1014857.metadata.json"
+    }
+  },
+  "dateDownloaded": "2026-05-25",
+  "activeFilters": {}
+}

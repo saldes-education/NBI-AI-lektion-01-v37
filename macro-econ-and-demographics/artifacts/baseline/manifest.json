@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "artifact_version": "baseline",
+  "created_at": "2026-05-29T20:04:00Z",
+  "base_year": 2020,
+  "training_window": [1950, 2020],
+  "library_versions": {
+    "statsmodels": "0.14.6",
+    "pandas": "3.0.3",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "payload_file": "cybernetic_twins_api_payload.json",
+  "models": {
+    "sweden": "twin_model_sweden.pkl",
+    "japan": "twin_model_japan.pkl",
+    "united states": "twin_model_united states.pkl",
+    "italy": "twin_model_italy.pkl"
+  },
+  "diagnostics": {},
+  "notes": "Exported by the analysis notebook (cell 40) before the training pipeline existed. Library versions are those of the environment the notebook ran in."
+}

@@ -1,0 +1,38 @@
+[project]
+name = "twin-training"
+version = "0.1.0"
+description = "Fits the per-country dynamic factor twins and exports serving artifacts."
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.4.6",
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.3",
+    "pycountry>=26.2.16",
+    "scipy>=1.17.1",
+    # Pinned together with serving: the exported pickles are statsmodels objects.
+    "statsmodels==0.14.6",
+    "twin-core",
+]
+
+[project.optional-dependencies]
+notebook = [
+    "ipykernel>=7.2.0",
+    "ipywidgets>=8.1.8",
+    "jupyterlab>=4.4",
+    "matplotlib>=3.10.9",
+    "seaborn>=0.13.2",
+]
+# Journals twin-train runs in MLflow; training runs the same without it.
+tracking = [
+    "mlflow>=3.16.0",
+]
+
+[project.scripts]
+twin-train = "twin_training.cli:main"
+
+[tool.uv.sources]
+twin-core = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13"]
+build-backend = "uv_build"

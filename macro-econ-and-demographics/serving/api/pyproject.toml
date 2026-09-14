@@ -1,0 +1,20 @@
+[project]
+name = "twin-api"
+version = "0.1.0"
+description = "FastAPI service serving the trained country twins."
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.136.3",
+    "numpy>=2.4.6",
+    "pandas>=3.0.3",
+    # Pinned together with training: the served pickles are statsmodels objects.
+    "statsmodels==0.14.6",
+    "twin-core",
+]
+
+[tool.uv.sources]
+twin-core = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.12.9,<0.13"]
+build-backend = "uv_build"

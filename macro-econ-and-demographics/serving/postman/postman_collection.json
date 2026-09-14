@@ -1,0 +1,147 @@
+{
+  "info": {
+    "name": "Cybernetic Digital Twin API",
+    "description": "Requests for the twin API started with `make serve` (or `docker compose up api`).\n\nChange the `baseUrl` collection variable if the server runs somewhere else.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://127.0.0.1:8000", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "{{baseUrl}}/health", "host": ["{{baseUrl}}"], "path": ["health"] },
+        "description": "Returns server status and the list of available country twins."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Server is operational', () => pm.expect(pm.response.json().status).to.eql('operational'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Simulate",
+      "item": [
+        {
+          "name": "Sweden - 15 years",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"sweden\",\n  \"steps_ahead\": 15\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/simulate", "host": ["{{baseUrl}}"], "path": ["simulate"] },
+            "description": "Projects the latent state forward. `country` is case-insensitive. `steps_ahead` must be between 1 and 100."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Has latent factors', () => {",
+                  "  const b = pm.response.json();",
+                  "  pm.expect(b).to.have.property('latent_factor_1_modernization');",
+                  "  pm.expect(b).to.have.property('latent_factor_2_systemic_strain');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Japan - 10 years",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"japan\",\n  \"steps_ahead\": 10\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/simulate", "host": ["{{baseUrl}}"], "path": ["simulate"] }
+          }
+        },
+        {
+          "name": "United States - 30 years",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"united states\",\n  \"steps_ahead\": 30\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/simulate", "host": ["{{baseUrl}}"], "path": ["simulate"] }
+          }
+        },
+        {
+          "name": "Italy - 5 years",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"italy\",\n  \"steps_ahead\": 5\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/simulate", "host": ["{{baseUrl}}"], "path": ["simulate"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Predict",
+      "item": [
+        {
+          "name": "Sweden - 10 years",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"sweden\",\n  \"years_ahead\": 10\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/predict", "host": ["{{baseUrl}}"], "path": ["predict"] },
+            "description": "Forecast in real-world units. `years_ahead` must be between 1 and 30."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Has real-world metrics', () => pm.expect(pm.response.json()).to.have.property('predictions_real_world'));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Error cases",
+      "item": [
+        {
+          "name": "Unknown country (404)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"france\",\n  \"steps_ahead\": 10\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/simulate", "host": ["{{baseUrl}}"], "path": ["simulate"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Status is 404', () => pm.response.to.have.status(404));"] } }
+          ]
+        },
+        {
+          "name": "steps_ahead out of range (422)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"country\": \"sweden\",\n  \"steps_ahead\": 500\n}", "options": { "raw": { "language": "json" } } },
+            "url": { "raw": "{{baseUrl}}/simulate", "host": ["{{baseUrl}}"], "path": ["simulate"] }
+          },
+          "event": [
+            { "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('Status is 422', () => pm.response.to.have.status(422));"] } }
+          ]
+        }
+      ]
+    }
+  ]
+}

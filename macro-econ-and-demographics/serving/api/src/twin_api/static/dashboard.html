@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybernetic Digital Twin Workspace</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col">
+
+    <header class="border-b border-slate-800 bg-slate-950/50 p-6 backdrop-blur">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-teal-400">
+                CYBERNETIC TWIN CORE
+            </h1>
+            <span class="px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs font-bold rounded-full uppercase tracking-widest animate-pulse">
+                Engine Live
+            </span>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <section class="bg-slate-950 border border-slate-800 rounded-2xl p-6 h-fit shadow-xl">
+            <h2 class="text-lg font-bold border-b border-slate-800 pb-3 mb-6 text-slate-300">Simulation Parameters</h2>
+
+            <form id="twinForm" class="space-y-6">
+                <div>
+                    <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">Select Core System</label>
+                    <select id="countrySelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm font-semibold focus:outline-none focus:border-purple-500 text-slate-200 cursor-pointer">
+                        <!--COUNTRY_OPTIONS-->
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2 flex justify-between">
+                        <span>Forecast Horizon</span>
+                        <span id="horizonLabel" class="text-teal-400 font-mono">10 Years</span>
+                    </label>
+                    <input type="range" id="yearsAhead" min="1" max="30" value="10" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-teal-400">
+                    <div class="flex justify-between text-[10px] text-slate-500 font-mono mt-1">
+                        <span>2021</span>
+                        <span>2035</span>
+                        <span>2050</span>
+                    </div>
+                </div>
+
+                <button type="button" onclick="executeTwinSimulation()" class="w-full py-4 bg-gradient-to-r from-purple-600 to-teal-600 hover:from-purple-500 hover:to-teal-500 text-white font-bold text-sm tracking-wider uppercase rounded-xl transition duration-300 shadow-lg cursor-pointer">
+                    Run State-Space Pass
+                </button>
+            </form>
+        </section>
+
+        <section class="lg:col-span-2 space-y-6">
+            <div class="flex justify-between items-end border-b border-slate-800 pb-3">
+                <h2 class="text-lg font-bold text-slate-300">Decoded Trajectory Outputs</h2>
+                <span id="targetYearBadge" class="text-sm font-mono text-purple-400 font-bold bg-purple-500/10 px-3 py-1 border border-purple-500/30 rounded-md">
+                    Target Year: --
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-md flex flex-col justify-between">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Total Fertility Rate</span>
+                    <div class="my-4">
+                        <span id="metricTFR" class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">--</span>
+                        <span class="text-xs text-slate-500 font-medium ml-1">births/woman</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 border-t border-slate-900 pt-2 flex justify-between font-mono">
+                        <span>Target Level: 2.1</span>
+                        <span id="scaledTFR">Z-Score: --</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-md flex flex-col justify-between">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Macro Debt-to-GDP</span>
+                    <div class="my-4">
+                        <span id="metricDebt" class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-pink-400">--</span>
+                        <span class="text-xs text-slate-500 font-medium ml-1">% of GDP</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 border-t border-slate-900 pt-2 flex justify-between font-mono">
+                        <span>System Leverage</span>
+                        <span id="scaledDebt">Z-Score: --</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-md flex flex-col justify-between">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Urbanization Share</span>
+                    <div class="my-4">
+                        <span id="metricUrban" class="text-3xl font-black text-emerald-400">--</span>
+                        <span class="text-xs text-slate-500 font-medium ml-1">% of Population</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 border-t border-slate-900 pt-2 flex justify-between font-mono">
+                        <span>Concentration Field</span>
+                        <span id="scaledUrban">Z-Score: --</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-md flex flex-col justify-between">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wide">Years of Schooling</span>
+                    <div class="my-4">
+                        <span id="metricEdu" class="text-3xl font-black text-amber-400">--</span>
+                        <span class="text-xs text-slate-500 font-medium ml-1">Avg Years Attained</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 border-t border-slate-900 pt-2 flex justify-between font-mono">
+                        <span>Human Capital Input</span>
+                        <span id="scaledEdu">Z-Score: --</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 shadow-md flex justify-between items-center">
+                <div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wide block mb-1">Child Mortality Footprint</span>
+                    <span id="metricMort" class="text-xl font-bold text-slate-300">--</span>
+                    <span class="text-xs text-slate-500 font-mono ml-1">deaths per 100 live births</span>
+                </div>
+                <span id="scaledMort" class="text-xs font-mono text-slate-500 bg-slate-900 px-3 py-1 rounded-md border border-slate-800">
+                    Z-Score: --
+                </span>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const slider = document.getElementById('yearsAhead');
+        const label = document.getElementById('horizonLabel');
+
+        slider.addEventListener('input', (e) => {
+            label.textContent = `${e.target.value} Years`;
+        });
+
+        async function executeTwinSimulation() {
+            const country = document.getElementById('countrySelect').value;
+            const yearsAhead = parseInt(slider.value);
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ country: country, years_ahead: yearsAhead })
+                });
+
+                if (!response.ok) throw new Error("Simulation pass failed.");
+
+                const data = await response.json();
+
+                // Update Landmarks
+                document.getElementById('targetYearBadge').textContent = `Target Year: ${data.target_year}`;
+
+                // Decode Real World Values
+                document.getElementById('metricTFR').textContent = data.predictions_real_world.total_fertility_rate;
+                document.getElementById('metricDebt').textContent = data.predictions_real_world.debt_to_gdp_pct + "%";
+                document.getElementById('metricUrban').textContent = data.predictions_real_world.urbanization_share_pct + "%";
+                document.getElementById('metricEdu').textContent = data.predictions_real_world.years_of_schooling;
+                document.getElementById('metricMort').textContent = data.predictions_real_world.child_mortality_rate_pct + "%";
+
+                // Render Scaled Z-Scores
+                document.getElementById('scaledTFR').textContent = `Z-Score: ${data.predictions_scaled.Fertility.toFixed(2)}`;
+                document.getElementById('scaledDebt').textContent = `Z-Score: ${data.predictions_scaled.Debt.toFixed(2)}`;
+                document.getElementById('scaledUrban').textContent = `Z-Score: ${data.predictions_scaled.Urbanization.toFixed(2)}`;
+                document.getElementById('scaledEdu').textContent = `Z-Score: ${data.predictions_scaled.Education.toFixed(2)}`;
+                document.getElementById('scaledMort').textContent = `Z-Score: ${data.predictions_scaled.Child_Mortality.toFixed(2)}`;
+
+            } catch (error) {
+                alert("Error communicating with the Twin engine core.");
+                console.error(error);
+            }
+        }
+
+        // Initial trigger pass on boot
+        window.addEventListener('DOMContentLoaded', () => {
+            executeTwinSimulation();
+        });
+    </script>
+</body>
+</html>

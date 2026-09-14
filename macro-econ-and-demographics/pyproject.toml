@@ -1,0 +1,25 @@
+[tool.uv.workspace]
+members = ["packages/twin_core", "training", "serving/api"]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.28",
+    "pytest>=8.3",
+    "ruff>=0.11",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = ["training/notebooks", "archive"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["twin_core", "twin_training", "twin_api"]
+
+[tool.pytest.ini_options]
+testpaths = ["training/tests", "serving/api/tests"]
+addopts = ["--import-mode=importlib"]
+markers = ["slow: fits a statsmodels model"]
